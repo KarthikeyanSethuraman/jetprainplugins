@@ -1,19 +1,16 @@
 "use strict";
-let schematicsUtils = require('@angular/cli/utilities/schematics');
-let defaultCollectionName;
+var schematicsUtils = require('@angular/cli/utilities/schematics');
+var defaultCollectionName;
 try {
     defaultCollectionName = require('@angular/cli/utilities/config').getDefaultSchematicCollection();
 }
 catch (e) {
     defaultCollectionName = require('@angular/cli/models/config').CliConfig.getValue('defaults.schematics.collection');
 }
-let engineHost = schematicsUtils.getEngineHost();
-const schematicsProvider = Promise.resolve({
+var schematicsProvider = {
     getCollection: schematicsUtils.getCollection,
+    getEngineHost: schematicsUtils.getEngineHost,
     getSchematic: schematicsUtils.getSchematic,
-    listSchematics(collection) {
-        return engineHost.listSchematics(collection);
-    },
-    getDefaultSchematicCollection: () => defaultCollectionName
-});
+    getDefaultSchematicCollection: function () { return defaultCollectionName; }
+};
 module.exports = schematicsProvider;

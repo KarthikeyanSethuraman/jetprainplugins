@@ -1,23 +1,19 @@
 "use strict";
-const schematic_command_1 = require("@angular/cli/models/schematic-command");
-const config_1 = require("@angular/cli/utilities/config");
-let workspace = config_1.getWorkspace();
-if (!workspace || !workspace.root)
-    throw new Error("Try 9.0 provider");
-let command = new schematic_command_1.SchematicCommand({ workspace }, null, null);
-let engineHost = command.createWorkflow({ interactive: false }).engineHost;
-const schematicsProvider = Promise.resolve({
-    getCollection(collectionName) {
+var schematic_command_1 = require("@angular/cli/models/schematic-command");
+var config_1 = require("@angular/cli/utilities/config");
+var command = new schematic_command_1.SchematicCommand({ workspace: config_1.getWorkspace() }, null, null);
+var schematicsProvider = {
+    getCollection: function (collectionName) {
         return command.getCollection(collectionName);
     },
-    listSchematics(collection) {
-        return engineHost.listSchematics(collection);
+    getEngineHost: function () {
+        return command.createWorkflow({ interactive: false }).engineHost;
     },
-    getSchematic(collection, schematicName, allowPrivate) {
+    getSchematic: function (collection, schematicName, allowPrivate) {
         return command.getSchematic(collection, schematicName, allowPrivate);
     },
-    getDefaultSchematicCollection() {
+    getDefaultSchematicCollection: function () {
         return command.getDefaultSchematicCollection();
     }
-});
+};
 module.exports = schematicsProvider;
